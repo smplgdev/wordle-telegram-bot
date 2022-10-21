@@ -1,0 +1,6 @@
+update_word_list.py
+extended_wordlist.txt
+.env
+./venv
+./data/userdata/*
+./tests
