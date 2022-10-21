@@ -1,6 +1,8 @@
 update_word_list.py
 extended_wordlist.txt
 .env
-./venv
+./venv/
 ./data/userdata/*
 ./tests
+.idea/
+./__pycache__/
