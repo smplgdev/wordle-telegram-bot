@@ -36,7 +36,7 @@ class Word:
                 return False
         return True
 
-    def get_guess_pattern(self, user_input_word: str):
+    def get_guess_pattern(self, user_input_word: str) -> list[Char]:
         guess_pattern = list()
 
         conceived_word = self.word

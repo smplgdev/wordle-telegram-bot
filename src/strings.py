@@ -31,7 +31,7 @@ def get_remaining_letters_text(guess_pattern: GuessPattern):
 
     string = "Оставшиеся буквы\n"
     if match:
-        string += '\n' + ' '.join(f'<b><u>{char}</u></b>' for char in match) + (' ' if mismatch else '')
+        string += '\n' + ' '.join(f'<b><u>{char}</u></b>' for char in list(match)[::-1]) + (' ' if mismatch else '')
     if mismatch:
         if not match:
             string += '\n'

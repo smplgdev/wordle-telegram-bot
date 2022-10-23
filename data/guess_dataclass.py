@@ -37,5 +37,5 @@ class GuessPattern:
         alphabet = get_alphabet()
         return alphabet - used_letters
 
-    def list_patterns(self) -> tuple:
-        return tuple(gp for gp in self.guesses)
+    def list_patterns(self) -> list[list]:
+        return list(gp for gp in self.guesses)

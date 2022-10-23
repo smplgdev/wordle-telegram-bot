@@ -57,7 +57,7 @@ def make_kb_from_guesses(guesses: GuessPattern | None = None):
         for guess_pattern in guesses.list_patterns():
             row = []
             for char in guess_pattern:
-                row.append(InlineKeyboardButton(text=f"{squares[char['status']]} {char['char'].upper()}",
+                row.append(InlineKeyboardButton(text=f"{squares[char.status]} {char.char.upper()}",
                                                 callback_data="null"))
             builder.row(*row)
             count += 1

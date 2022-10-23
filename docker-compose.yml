@@ -1,0 +1,19 @@
+version: "3.1"
+
+services:
+  bot:
+    container_name: wordle
+    build:
+      context: .
+    command: python bot.py
+    restart: always
+    networks:
+      - batya_botnet
+    env_file:
+      - ".env"
+    volumes:
+      - .:/src
+
+networks:
+  batya_botnet:
+    external: true
