@@ -43,7 +43,7 @@ class Word:
         for i, char in enumerate(user_input_word):
             if user_input_word[i] == conceived_word[i]:
                 guess_pattern.append(Char(char, 'match'))
-            elif char in conceived_word and conceived_word.count(char) == user_input_word.count(char):
+            elif char in conceived_word and conceived_word.count(char) >= user_input_word.count(char):
                 guess_pattern.append(Char(char, 'mismatch'))
             else:
                 guess_pattern.append(Char(char, 'missing'))
