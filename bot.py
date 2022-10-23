@@ -17,8 +17,8 @@ async def main():
     logging.info("Setup connection with PostgreSQL")
     await db.set_bind(POSTGRES_URI)
 
-    logging.info("Drop models")
-    await db.gino.drop_all()
+    # logging.info("Drop models")
+    # await db.gino.drop_all()
 
     logging.info("Create models")
     await db.gino.create_all()
