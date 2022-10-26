@@ -8,6 +8,6 @@ async def add_guess(game_id: int, word: str):
     return guess
 
 
-async def get_game_guesses_words(game_id: int) -> list[str]:
-    guesses = await Guess.select('user_input_word').where(Guess.game_id == game_id).gino.all()
+async def get_game_guesses_words(game_id: int) -> list[Guess]:
+    guesses = await Guess.query.where(Guess.game_id == game_id).gino.all()
     return guesses

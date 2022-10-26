@@ -1,8 +1,5 @@
-import json
-
-from aiogram.filters import callback_data
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, KeyboardButton
-from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from data.char_dataclass import Char
 from data.guess_dataclass import GuessPattern

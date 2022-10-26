@@ -10,4 +10,6 @@ def get_play_again_kb(conceived_word: str | None = None) -> InlineKeyboardMarkup
     if conceived_word is not None:
         builder.button(text="Узнать загаданное слово", callback_data=GameCallback(action="show_conceived_word_if_lost",
                                                                                   conceived_word=conceived_word))
+    builder.button(text="Моя Статистика", callback_data=GameCallback(action='show_stats'))
+    builder.adjust(2)
     return builder.as_markup()

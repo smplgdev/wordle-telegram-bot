@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from database.pgcommands import user as user_commands
-from keyboards.st import get_start_kb
+from keyboards.start_kb import get_start_kb
 from src import strings
 
 router = Router()

@@ -1,4 +1,6 @@
 update_word_list.py
+testquery.py
+
 .env
 venv/
 data/userdata/*

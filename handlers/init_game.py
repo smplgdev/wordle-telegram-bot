@@ -4,7 +4,7 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.fsm.context import FSMContext
 
 from bot import bot
-from database.pgcommands import game as game_commands
+from database.pgcommands import game as game_commands, conceive_words
 from database.pgcommands import guesses as guess_commands
 from data.guess_dataclass import GuessPattern
 from data.word_dataclass import Word
@@ -21,9 +21,9 @@ router = Router()
                                                          "start"])),
                        F.state == GuessWord.guessing_word)
 async def cancel_game_init(call: types.CallbackQuery, state: FSMContext):
-    await call.message.answer("У вас уже есть начатая игра. Чтобы закончить ее, введите /start")
-    await state.clear()
-    await init_game(call, state)
+    await call.answer(strings.game_already_started_text, show_alert=True)
+    # await state.clear()
+    # await init_game(call, state)
 
 
 @router.callback_query(GameCallback.filter(F.action == "play_again"))
@@ -36,14 +36,14 @@ async def init_game(call: types.CallbackQuery, state: FSMContext):
     # Removes buttons from greet message or play again message
     await call.message.delete_reply_markup()
 
-    conceived_word = Word().conceive()
+    conceived_word = await conceive_words.get_random_conceive_word()
     await state.set_state(GuessWord.guessing_word)
 
     message = await call.message.answer(strings.game_message, reply_markup=make_kb_from_guesses())
 
     game = await game_commands.initialize_game(game_message_id=message.message_id,
                                                user_telegram_id=call.from_user.id,
-                                               conceived_word=conceived_word)
+                                               conceived_word_id=conceived_word.id)
     gp = GuessPattern()
     string = strings.get_remaining_letters_text(gp)
     await call.message.answer(string)
@@ -72,8 +72,10 @@ async def guess_word(message: types.Message, state: FSMContext):
     # guesses.append(user_word)
 
     guesses_patterns = list()
+    conceived_word = await conceive_words.get_by_id(game.conceived_word_id)
+
     for guess in guesses:
-        guesses_patterns.append(Word(game.conceived_word).get_guess_pattern(guess[0]))
+        guesses_patterns.append(Word(conceived_word).get_guess_pattern(guess.user_input_word))
 
     gp = GuessPattern(guesses_patterns)
     markup = make_kb_from_guesses(gp)
@@ -82,7 +84,7 @@ async def guess_word(message: types.Message, state: FSMContext):
     if all(char.status == "match" for char in guesses_patterns[-1]):
         await message.answer(strings.win_text,
                              reply_markup=get_play_again_kb())
-        await game_commands.update_game_status(game_id, "end")
+        await game_commands.update_game_status(game_id, "win")
         await state.clear()
         return
 
@@ -97,7 +99,8 @@ async def guess_word(message: types.Message, state: FSMContext):
 
     if tries == 6:
         await message.answer(strings.lose_text,
-                             reply_markup=get_play_again_kb(conceived_word=game.conceived_word))
+                             reply_markup=get_play_again_kb(conceived_word=conceived_word))
+        await game_commands.update_game_status(game_id, 'los')
         await state.clear()
         return
 

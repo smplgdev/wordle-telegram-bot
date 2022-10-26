@@ -1,6 +1,6 @@
 from aiogram import Router, F, types
 
-from keyboards.st import get_start_kb
+from keyboards.start_kb import get_start_kb
 from src import strings
 
 router = Router()
