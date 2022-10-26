@@ -29,6 +29,8 @@ async def get_user_statistics(user_tg_id: int) -> dict:
         else:
             cur_streak = 0
         guesses = await guess_commands.get_game_guesses_words(game.id)
+        if len(guesses) < 1:
+            continue
         guesses = [guess.user_input_word for guess in guesses]
 
         conceive_word = await conceive_words.get_by_id(game.conceived_word_id)
